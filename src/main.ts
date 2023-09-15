@@ -1,8 +1,10 @@
 import {vec3, vec4} from 'gl-matrix';
 //const Stats = require('stats-js');
+import * as DAT from 'dat.gui';
 import Icosphere from './geometry/Icosphere';
 import Square from './geometry/Square';
 import Cube from './geometry/Cube';
+
 import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
 import Camera from './Camera';
 import {setGL} from './globals';
@@ -42,6 +44,13 @@ function main() {
   // stats.domElement.style.left = '0px';
   // stats.domElement.style.top = '0px';
   // document.body.appendChild(stats.domElement);
+
+  const gui = new DAT.GUI();
+  gui.add(controls, 'tesselations', 0, 8).step(1);
+  gui.add(controls, 'Load Scene');
+  gui.add(controls, 'Red', 0, 255).step(1);
+  gui.add(controls, 'Green', 0, 255).step(1);
+  gui.add(controls, 'Blue', 0, 255).step(1);
 
   // get canvas and webgl context
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
