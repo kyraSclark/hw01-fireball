@@ -1,5 +1,18 @@
 # [Project 1: Noise](https://github.com/CIS-566-Fall-2022/hw01-fireball-base)
 
+## Submission
+Kyra Clark (ckyra)
+
+[Live Demo]()
+
+[TODO] it clips in the vertex shader (sawtooth) and clips to yellow in frag ???
+
+For the vertex shader, I used FBM noise to create the distortion. Then, I used [TOOLBOX FUNCTION 1] a sawtooth wave to create the movement around the fireball. Finally, I add a time element to the sawtooth wave to animate the fireball
+
+For the fragment shader, I use [TOOLBOX FUNCTION 2] a triangle wave function to alter the color of the fireball. It is interpolating between two colors, but I use [TOOLBOX FUNCTION 3] the bias function to make it red more often. Finally, I add an additional [TOOLBOX FUNCTION 3] square wave function to add a little bit of blue flame to the tail. All of these functions oscillate with time to animate it. 
+
+The user has access to three buttons to control the fireball. [TODO]
+
 ## Objective
 
 Get comfortable with using WebGL and its shaders to generate an interesting 3D, continuous surface using a multi-octave noise algorithm.
