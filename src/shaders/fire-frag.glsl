@@ -35,36 +35,31 @@ float triangle_wave(float x, float freq, float amp)
     return abs(mod((x * freq), amp) - (0.5 * amp));
 }
 
-float square_wave(float x, float freq, float amp)
-{
-    return abs(mod(floor(x*freq), 2.0) * amp);
-}
-
 void main()
 {
     // Material base color (before shading)
         vec3 yellow = vec3(1.0, 0.8, 0.0);
         vec3 red = vec3(1.0, 0.0, 0.0);
-        float t = triangle_wave(u_Time * 0.01, 0.25, 1.0);
-        t = bias(0.9, t);
-        vec3 col = mix(yellow, red, t);
+        vec3 blue = vec3(0.0, 0.0, 1.0);
 
-        if (fs_Pos.x < 0.0 && fs_Pos.y < 0.0 && fs_Pos.z < 0.0)
-        {
-            float t1 = triangle_wave(u_Time * 0.001, .9, 0.8) + 0.01;
-            col = mix(col, vec3(0.0, 0.0, 1.0), t1);
-        }
+        // SMOOTHSTEP
+        float val = clamp(smoothstep(0.6, 0.9, fs_Pos.z-0.25),0.0,1.0);
+        val = bias(0.4, val);
+        vec3 col = mix(yellow, blue, val);
+        float t = triangle_wave(u_Time * 0.005, 0.25, 2.0);
+        col = mix(col, red, t);
+
+        float val2 = clamp(smoothstep(0.1, 0.8, (fs_Pos.z + 0.8) * 0.5),0.0,1.0);
+        col = mix(red, col, val2);
 
         // Calculate the diffuse term for Lambert shading
-        float diffuseTerm = dot(normalize(fs_Nor), normalize(fs_LightVec));
+        float diffuseTerm = dot(normalize(fs_Nor), normalize(fs_LightVec)) * 0.75;
 
-        float ambientTerm = 0.2;
+        float ambientTerm = 0.5;
 
         float lightIntensity = diffuseTerm + ambientTerm;   //Add a small float value to the color multiplier
                                                             //to simulate ambient lighting. This ensures that faces that are not
                                                             //lit by our point light are not completely black.
-
-        lightIntensity = bias(0.25, lightIntensity);
 
         // Compute final shaded color
         out_Col = vec4(col * lightIntensity, u_Color.a);

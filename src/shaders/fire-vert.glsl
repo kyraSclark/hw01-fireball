@@ -33,7 +33,7 @@ out vec4 fs_LightVec;       // The direction in which our virtual light lies, re
 out vec4 fs_Col;            // The color of each vertex. This is implicitly passed to the fragment shader.
 
 
-const vec4 lightPos = vec4(5, 5, 3, 1); //The position of our virtual light, which is used to compute the shading of
+const vec4 lightPos = vec4(0, 0, 5, 1); //The position of our virtual light, which is used to compute the shading of
                                         //the geometry in the fragment shader.
 
 
@@ -118,18 +118,20 @@ void main()
     float freq1 = 1.5 + sin(t) * 0.34;
     float wind = abs((sin(t) + 2.0) * 0.5);
     wind = sawtooth_wave(u_Time * 0.005, 0.5, 5.0);
-    float d1 = fbm(modelposition.x + wind, modelposition.y + wind, modelposition.z + wind, 0.5, 4.0);
+    float d1 = fbm(modelposition.x, modelposition.y, modelposition.z + 1.2 * wind, 0.5, 4.0);
 
     fs_LightVec = lightPos - modelposition;  // Compute the direction in which the light source lies
 
-    // offset the vertices along the icosahedron's surface normals
-    if (dot(fs_Nor, fs_LightVec) < -1.0)
+    if (modelposition.z > 0.0)
     {
-        modelposition = -0.4 * d1 * fs_LightVec + modelposition;
-    }
-    else 
-    {
+
         modelposition = d1 * fs_Nor + modelposition;
+    }
+    else
+    {
+        vec4 tail = (4.0 * abs(modelposition.z) + 1.0) * d1 * fs_Nor + modelposition;
+        modelposition = (1.2 * abs(modelposition.z) + 1.0) * d1 * fs_Nor + modelposition;
+        modelposition.z = tail.z;
     }
 
     gl_Position = u_ViewProj * modelposition;// gl_Position is a built-in variable of OpenGL which is
