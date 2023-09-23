@@ -13,6 +13,7 @@ precision highp float;
 
 uniform vec4 u_Color; // The color with which to render this instance of geometry.
 uniform float u_Time;
+uniform int u_Magic;
 
 // These are the interpolated values out of the rasterizer, so you can't know
 // their specific values without knowing the vertices that contributed to them
@@ -38,31 +39,39 @@ float triangle_wave(float x, float freq, float amp)
 void main()
 {
     // Material base color (before shading)
-        vec3 yellow = vec3(1.0, 0.8, 0.0);
-        vec3 red = vec3(1.0, 0.0, 0.0);
-        vec3 blue = vec3(0.0, 0.0, 1.0);
+    vec3 yellow = vec3(1.0, 0.7, 0.0);
+    vec3 red = vec3(1.0, 0.0, 0.0);
+    vec3 blue = vec3(0.0, 0.0, 1.0);
+    
+    if (u_Magic == 1) {
+        yellow = vec3(0.3, 0.0, 1.0);
+        red = vec3(1.0, 0.0, 1.0);
+        blue = vec3(0.0, 1.0, 0.0);
+    }
+    
+    // SMOOTHSTEP
+    float val = clamp(smoothstep(0.6, 0.9, fs_Pos.z-0.25),0.0,1.0);
+    val = bias(0.4, val);
+    vec3 col = mix(yellow, blue, val);
+    float t = triangle_wave(u_Time * 0.005, 0.25, 2.0);
+    col = mix(col, red, t);
 
-        // SMOOTHSTEP
-        float val = clamp(smoothstep(0.6, 0.9, fs_Pos.z-0.25),0.0,1.0);
-        val = bias(0.4, val);
-        vec3 col = mix(yellow, blue, val);
-        float t = triangle_wave(u_Time * 0.005, 0.25, 2.0);
-        col = mix(col, red, t);
+    float val2;
+    if (u_Magic == 1) {
+        val2 = clamp(smoothstep(0.1, 0.8, (fs_Pos.z + 0.8) * 0.5),0.0,1.0);
+    }
+    else {
+        val2 = clamp(smoothstep(0.1, 0.8, (fs_Pos.z + 0.5) * 0.5),0.0,1.0);
+    }
+    col = mix(red, col, val2);
 
-        float val2 = clamp(smoothstep(0.1, 0.8, (fs_Pos.z + 0.8) * 0.5),0.0,1.0);
-        col = mix(red, col, val2);
+    // Calculate the diffuse term for Lambert shading
+    float diffuseTerm = dot(normalize(fs_Nor), normalize(fs_LightVec)) * 0.75;
+    float ambientTerm = 0.6;
+    float lightIntensity = diffuseTerm + ambientTerm;  
 
-        // Calculate the diffuse term for Lambert shading
-        float diffuseTerm = dot(normalize(fs_Nor), normalize(fs_LightVec)) * 0.75;
-
-        float ambientTerm = 0.5;
-
-        float lightIntensity = diffuseTerm + ambientTerm;   //Add a small float value to the color multiplier
-                                                            //to simulate ambient lighting. This ensures that faces that are not
-                                                            //lit by our point light are not completely black.
-
-        // Compute final shaded color
-        out_Col = vec4(col * lightIntensity, u_Color.a);
+    // Compute final shaded color
+    out_Col = vec4(col * lightIntensity, u_Color.a);
 }
 
 
