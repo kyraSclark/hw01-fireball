@@ -14,7 +14,8 @@ let time = 0.0;
 const controls = {
   Speed: 0.4,
   Tail_Size: 4.0,
-  Magic_Medeor: 0, 
+  Magic_Medeor: 0,
+  'Restore Defaults': restoreDefaults,
 };
 
 let icosphere: Icosphere;
@@ -30,11 +31,19 @@ function loadScene() {
   cube.create();
 }
 
+function restoreDefaults() {
+  controls.Speed = 0.4;
+  controls.Tail_Size = 4.0;
+  controls.Magic_Medeor = 0;
+  // TODO: resets controls but not the gui ??????
+}
+
 function main() {
   const gui = new DAT.GUI();
   gui.add(controls, 'Speed', 0.025, 0.5).step(0.005);
   gui.add(controls, 'Tail_Size', 2.0, 10.0).step(1);
   gui.add(controls, 'Magic_Medeor', 0, 1).step(1);
+  gui.add(controls, 'Restore Defaults');
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
   const gl = <WebGL2RenderingContext> canvas.getContext('webgl2');

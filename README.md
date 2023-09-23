@@ -3,13 +3,15 @@
 ## Submission
 Kyra Clark (ckyra)
 
-[Live Demo]()
+[Fireball MEDEOR Live Demo]()
 
-For the vertex shader, I used FBM noise to create the distortion. Then, I used [TOOLBOX FUNCTION 1] a sawtooth wave to create the movement around the fireball. Finally, I add a time element to the sawtooth wave to animate the fireball
+[TODO] Restore resets the controls but not the gui??????
 
-For the fragment shader, I use [TOOLBOX FUNCTION 2] a smoothstep to blend between the colors of the fireball. However, I use a [TOOLBOX FUNCTION 3] bias function to limit the amount of blue on the fire. Then, I use [TOOLBOX FUNCTION 4] triangle wave function to animate the color of the fireball, as the comet enters the atmosphere. The wave function oscillates with time to animate. 
+For the vertex shader, I used FBM noise to create the distortion. Then, I used [TOOLBOX FUNCTION 1] a **sawtooth wave** to create the movement around the fireball. Finally, I add a time element to the sawtooth wave to animate the fireball
 
-The user has access to three buttons to control the fireball. [TODO]
+For the fragment shader, I use [TOOLBOX FUNCTION 2] a **smoothstep** to blend between the colors of the fireball. However, I use a [TOOLBOX FUNCTION 3] **bias function** to limit the amount of blue on the fire. Then, I use [TOOLBOX FUNCTION 4] **triangle wave** function to animate the color of the fireball, as the comet enters the atmosphere. The wave function oscillates with time to animate. 
+
+The user has access to three buttons to control the fireball. First, you can control the speed of the medeor. It will default to a fairly fast medeor, zooming through space, but the user can click a slower speed to see the medeor in slow mo. Next, the user can control the size of the tail of the medeor. It will default to a medium size tail, but the user can increase or decrease this size using the slider. Finally, there is a boolean that will turn the normal medeor into a *~magic medeor~*, bringing aliens or fairies or dragons to earth probably. 
 
 ## Objective
 
