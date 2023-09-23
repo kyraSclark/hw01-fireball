@@ -16,7 +16,7 @@ let time = 0.0;
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
   Speed: 0.5,
-  'Load Scene': loadScene, // A function pointer, essentially
+  Tail_Size: 4.0,
   Red: 255, 
   Green: 0, 
   Blue: 0,
@@ -46,7 +46,7 @@ function main() {
 
   const gui = new DAT.GUI();
   gui.add(controls, 'Speed', 0.025, 0.5).step(0.005);
-  gui.add(controls, 'Load Scene');
+  gui.add(controls, 'Tail_Size', 2.0, 10.0).step(1);
   gui.add(controls, 'Red', 0, 255).step(1);
   gui.add(controls, 'Green', 0, 255).step(1);
   gui.add(controls, 'Blue', 0, 255).step(1);
@@ -94,7 +94,8 @@ function main() {
       //cube,
     ],
     time,
-    controls.Speed
+    controls.Speed,
+    controls.Tail_Size,
     );
     //stats.end();
 

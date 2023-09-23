@@ -27,6 +27,7 @@ class ShaderProgram {
   
   unifTime: WebGLUniformLocation;
   unifSpeed: WebGLUniformLocation;
+  unifTailSize: WebGLUniformLocation;
   unifModel: WebGLUniformLocation;
   unifModelInvTr: WebGLUniformLocation;
   unifViewProj: WebGLUniformLocation;
@@ -48,6 +49,7 @@ class ShaderProgram {
     this.attrCol = gl.getAttribLocation(this.prog, "vs_Col");
     this.unifTime       = gl.getUniformLocation(this.prog, "u_Time");
     this.unifSpeed      = gl.getUniformLocation(this.prog, "u_Speed");
+    this.unifTailSize   = gl.getUniformLocation(this.prog, "u_TailSize");
     this.unifModel      = gl.getUniformLocation(this.prog, "u_Model");
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
@@ -100,6 +102,13 @@ class ShaderProgram {
     this.use();
     if(this.unifSpeed !== -1) {
       gl.uniform1f(this.unifSpeed, speed);
+    }
+  }
+
+  setTailSize(tail: GLfloat) {
+    this.use();
+    if(this.unifTailSize !== -1) {
+      gl.uniform1f(this.unifTailSize, tail);
     }
   }
 

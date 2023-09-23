@@ -27,6 +27,7 @@ in vec4 vs_Col;             // The array of vertex colors passed to the shader.
 
 uniform float u_Time;
 uniform float u_Speed;
+uniform float u_TailSize;
 
 out vec4 fs_Pos;
 out vec4 fs_Nor;            // The array of normals that has been transformed by u_ModelInvTr. This is implicitly passed to the fragment shader.
@@ -125,13 +126,12 @@ void main()
 
     if (modelposition.z > 0.0)
     {
-
         modelposition = d1 * fs_Nor + modelposition;
     }
     else
     {
-        vec4 tail = (4.0 * abs(modelposition.z) + 1.0) * d1 * fs_Nor + modelposition;
-        modelposition = (1.2 * abs(modelposition.z) + 1.0) * d1 * fs_Nor + modelposition;
+        vec4 tail = (u_TailSize * abs(modelposition.z) + 1.0) * d1 * fs_Nor + modelposition; 
+        modelposition = (1.2 * abs(modelposition.z) + 1.0) * d1 * fs_Nor + modelposition; 
         modelposition.z = tail.z;
     }
 
