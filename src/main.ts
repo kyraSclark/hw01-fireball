@@ -15,7 +15,7 @@ let time = 0.0;
 // Define an object with application parameters and button callbacks
 // This will be referred to by dat.GUI's functions that add GUI elements.
 const controls = {
-  tesselations: 5,
+  Speed: 0.5,
   'Load Scene': loadScene, // A function pointer, essentially
   Red: 255, 
   Green: 0, 
@@ -25,10 +25,9 @@ const controls = {
 let icosphere: Icosphere;
 let square: Square;
 let cube: Cube;
-let prevTesselations: number = 5;
 
 function loadScene() {
-  icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, controls.tesselations);
+  icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, 5);
   icosphere.create();
   square = new Square(vec3.fromValues(0, 0, 0));
   square.create();
@@ -46,7 +45,7 @@ function main() {
   // document.body.appendChild(stats.domElement);
 
   const gui = new DAT.GUI();
-  gui.add(controls, 'tesselations', 0, 8).step(1);
+  gui.add(controls, 'Speed', 0.025, 0.5).step(0.005);
   gui.add(controls, 'Load Scene');
   gui.add(controls, 'Red', 0, 255).step(1);
   gui.add(controls, 'Green', 0, 255).step(1);
@@ -83,18 +82,20 @@ function main() {
     //stats.begin();
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
-    if(controls.tesselations != prevTesselations)
-    {
-      prevTesselations = controls.tesselations;
-      icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, prevTesselations);
-      icosphere.create();
-    } 
+    // if(controls.tesselations != prevTesselations)
+    // {
+    //   prevTesselations = controls.tesselations;
+    //   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, prevTesselations);
+    //   icosphere.create();
+    // } 
     renderer.render(camera, lambert, [
       icosphere,
       //square,
       //cube,
     ],
-    time);
+    time,
+    controls.Speed
+    );
     //stats.end();
 
     // Tell the browser to call `tick` again whenever it renders a new frame

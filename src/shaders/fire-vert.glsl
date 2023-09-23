@@ -26,6 +26,7 @@ in vec4 vs_Nor;             // The array of vertex normals passed to the shader
 in vec4 vs_Col;             // The array of vertex colors passed to the shader.
 
 uniform float u_Time;
+uniform float u_Speed;
 
 out vec4 fs_Pos;
 out vec4 fs_Nor;            // The array of normals that has been transformed by u_ModelInvTr. This is implicitly passed to the fragment shader.
@@ -117,7 +118,7 @@ void main()
     float amp1 = 3.0 + sin(t + 0.32) * 0.1;
     float freq1 = 1.5 + sin(t) * 0.34;
     float wind = abs((sin(t) + 2.0) * 0.5);
-    wind = sawtooth_wave(u_Time * 0.005, 0.5, 5.0);
+    wind = sawtooth_wave(u_Time * 0.005, u_Speed, 5.0); // 0.025 to .5
     float d1 = fbm(modelposition.x, modelposition.y, modelposition.z + 1.2 * wind, 0.5, 4.0);
 
     fs_LightVec = lightPos - modelposition;  // Compute the direction in which the light source lies
