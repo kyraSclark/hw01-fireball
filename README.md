@@ -3,7 +3,7 @@
 ## Submission
 Kyra Clark (ckyra)
 
-[Fireball MEDEOR Live Demo]()
+[Fireball MEDEOR Live Demo](https://kyrasclark.github.io/hw01-fireball/)
 
 For the vertex shader, I used FBM noise to create the distortion. Then, I used [TOOLBOX FUNCTION 1] a **sawtooth wave** to create the movement around the fireball. Finally, I add a time element to the sawtooth wave to animate the fireball
 
