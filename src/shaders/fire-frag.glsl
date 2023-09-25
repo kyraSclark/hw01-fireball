@@ -12,6 +12,8 @@
 precision highp float;
 
 uniform vec4 u_Color; // The color with which to render this instance of geometry.
+uniform vec4 u_MiddleColor;
+uniform vec4 u_FrontColor;
 uniform float u_Time;
 uniform int u_Magic;
 
@@ -38,16 +40,9 @@ float triangle_wave(float x, float freq, float amp)
 
 void main()
 {
-    // Material base color (before shading)
-    vec3 yellow = vec3(1.0, 0.7, 0.0);
-    vec3 red = vec3(1.0, 0.0, 0.0);
-    vec3 blue = vec3(0.0, 0.0, 1.0);
-    
-    if (u_Magic == 1) {
-        yellow = vec3(0.3, 0.0, 1.0);
-        red = vec3(1.0, 0.0, 1.0);
-        blue = vec3(0.0, 1.0, 0.0);
-    }
+    vec3 yellow = u_MiddleColor.rgb;
+    vec3 red = u_Color.rgb;
+    vec3 blue = u_FrontColor.rgb;
     
     // SMOOTHSTEP
     float val = clamp(smoothstep(0.6, 0.9, fs_Pos.z-0.25),0.0,1.0);

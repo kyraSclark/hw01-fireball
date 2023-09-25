@@ -1,4 +1,4 @@
-import {vec4, mat4} from 'gl-matrix';
+import {vec4, vec3, mat4} from 'gl-matrix';
 import Drawable from './Drawable';
 import {gl} from '../../globals';
 
@@ -33,6 +33,8 @@ class ShaderProgram {
   unifModelInvTr: WebGLUniformLocation;
   unifViewProj: WebGLUniformLocation;
   unifColor: WebGLUniformLocation;
+  unifMiddleColor: WebGLUniformLocation;
+  unifFrontColor: WebGLUniformLocation;
 
   constructor(shaders: Array<Shader>) {
     this.prog = gl.createProgram();
@@ -56,6 +58,8 @@ class ShaderProgram {
     this.unifModelInvTr = gl.getUniformLocation(this.prog, "u_ModelInvTr");
     this.unifViewProj   = gl.getUniformLocation(this.prog, "u_ViewProj");
     this.unifColor      = gl.getUniformLocation(this.prog, "u_Color");
+    this.unifMiddleColor      = gl.getUniformLocation(this.prog, "u_MiddleColor");
+    this.unifFrontColor      = gl.getUniformLocation(this.prog, "u_FrontColor");
   }
 
   use() {
@@ -93,6 +97,17 @@ class ShaderProgram {
     }
   }
 
+  setColor(main: vec4, middle: vec4, front: vec4) {
+    this.setGeometryColor(main);
+    this.use();
+    if(this.unifMiddleColor != -1) {
+      gl.uniform4fv(this.unifMiddleColor, middle);
+    }
+    if(this.unifFrontColor != -1) {
+      gl.uniform4fv(this.unifFrontColor, front);
+    }
+  }
+
   setTime(time: GLfloat) {
     this.use();
     if (this.unifTime !== -1) {
@@ -114,10 +129,16 @@ class ShaderProgram {
     }
   }
 
-  setMagic(magic: GLint) {
+  setMagic(magic: boolean) {
     this.use();
     if(this.unifMagic !== -1) {
-      gl.uniform1i(this.unifMagic, magic);
+      if(magic) {
+        gl.uniform1i(this.unifMagic, 1);
+      }
+      else 
+      {
+        gl.uniform1i(this.unifMagic, 0);
+      }
     }
   }
 

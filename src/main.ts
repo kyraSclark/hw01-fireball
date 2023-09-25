@@ -10,11 +10,15 @@ import {setGL} from './globals';
 import ShaderProgram, {Shader} from './rendering/gl/ShaderProgram';
 
 let time = 0.0;
+let magic = false;
 
 const controls = {
   Speed: 0.4,
   Tail_Size: 4.0,
-  Magic_Medeor: 0,
+  Main_Color: [ 255, 0, 0 ],
+  Middle_Color: [ 255, 178.5, 0 ],
+  Front_Color: [ 0, 0, 255 ],
+  'Magic Medeor': magicMedeor,
   'Restore Defaults': restoreDefaults,
 };
 
@@ -31,18 +35,36 @@ function loadScene() {
   cube.create();
 }
 
+function magicMedeor() {
+  magic = !magic;
+  if(magic){
+    controls.Main_Color = [ 255, 0, 255 ];
+    controls.Middle_Color = [ 76.5, 0, 255 ];
+    controls.Front_Color = [ 0, 255, 0 ];
+  } else {
+    controls.Main_Color = [ 255, 0, 0 ];
+    controls.Middle_Color = [ 255, 178.5, 0 ];
+    controls.Front_Color = [ 0, 0, 255 ];
+  }
+}
+
 function restoreDefaults() {
   controls.Speed = 0.4;
   controls.Tail_Size = 4.0;
-  controls.Magic_Medeor = 0;
-  // TODO: resets controls but not the gui ??????
+  magic = false;
+  controls.Main_Color = [ 255, 0, 0 ];
+  controls.Middle_Color = [ 255, 178.5, 0 ];
+  controls.Front_Color = [ 0, 0, 255 ];
 }
 
 function main() {
   const gui = new DAT.GUI();
-  gui.add(controls, 'Speed', 0.025, 0.5).step(0.005);
-  gui.add(controls, 'Tail_Size', 2.0, 10.0).step(1);
-  gui.add(controls, 'Magic_Medeor', 0, 1).step(1);
+  gui.add(controls, 'Speed', 0.025, 0.5).step(0.005).name("Medeor Speed");
+  gui.add(controls, 'Tail_Size', 2.0, 10.0).step(1).name("Tail Size");
+  gui.addColor(controls, 'Main_Color').name("Main Color");
+  gui.addColor(controls, 'Middle_Color').name("Middle Color");
+  gui.addColor(controls, 'Front_Color').name("Tip/Front Detail Color");
+  gui.add(controls, 'Magic Medeor');
   gui.add(controls, 'Restore Defaults');
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
@@ -69,6 +91,7 @@ function main() {
   function tick() {
     camera.update();
     time = time + 1.0;
+
     gl.viewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.clear();
     renderer.render(camera, lambert, 
@@ -76,7 +99,10 @@ function main() {
       time,
       controls.Speed,
       controls.Tail_Size,
-      controls.Magic_Medeor,
+      magic,
+      vec4.fromValues(controls.Main_Color[0]/255.0,controls.Main_Color[1]/255.0,controls.Main_Color[2]/255.0,1),
+      vec4.fromValues(controls.Middle_Color[0]/255.0,controls.Middle_Color[1]/255.0,controls.Middle_Color[2]/255.0,1),
+      vec4.fromValues(controls.Front_Color[0]/255.0,controls.Front_Color[1]/255.0,controls.Front_Color[2]/255.0,1),
     );
 
     // Tell the browser to call `tick` again whenever it renders a new frame
