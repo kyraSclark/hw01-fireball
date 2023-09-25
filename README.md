@@ -11,7 +11,7 @@ For the fragment shader, I use [TOOLBOX FUNCTION 2] a **smoothstep** to blend be
 
 The user has access to several buttons to control the fireball. First, you can control the speed of the medeor. It will default to a fairly fast medeor, zooming through space, but the user can click a slower speed to see the medeor in slow mo. Next, the user can control the size of the tail of the medeor. It will default to a medium size tail, but the user can increase or decrease this size using the slider. Then, the user has access to three colors that will control the three color sections of the medeor. The first color controls the main body and tail of the fireball, the second controls the middle section, and the final color controls the very tip of the flame at the front of the medeor. Finally, there is a button that will turn the normal medeor into a _~magic medeor~_, bringing aliens or fairies or dragons to earth probably. 
 
-The restore button should turn off any magic, and restore the speed, size, and color of the medeor. Note that this button, does not reset the GUI, but does control the internal variables. 
+The restore button should turn off any magic, and restore the speed, size, and color of the medeor. Note that this button, does not reset the GUI, but does control the internal variables.
 
 ## Objective
 
