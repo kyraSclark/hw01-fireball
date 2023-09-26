@@ -18,7 +18,7 @@ const controls = {
   Main_Color: [ 255, 0, 0 ],
   Middle_Color: [ 255, 178.5, 0 ],
   Front_Color: [ 0, 0, 255 ],
-  'Magic Medeor': magicMedeor,
+  'Magic Meteor': magicMedeor,
   'Restore Defaults': restoreDefaults,
 };
 
@@ -59,12 +59,12 @@ function restoreDefaults() {
 
 function main() {
   const gui = new DAT.GUI();
-  gui.add(controls, 'Speed', 0.025, 0.5).step(0.005).name("Medeor Speed");
+  gui.add(controls, 'Speed', 0.025, 0.5).step(0.005).name("Meteor Speed");
   gui.add(controls, 'Tail_Size', 2.0, 10.0).step(1).name("Tail Size");
   gui.addColor(controls, 'Main_Color').name("Main Color");
   gui.addColor(controls, 'Middle_Color').name("Middle Color");
   gui.addColor(controls, 'Front_Color').name("Tip/Front Detail Color");
-  gui.add(controls, 'Magic Medeor');
+  gui.add(controls, 'Magic Meteor');
   gui.add(controls, 'Restore Defaults');
 
   const canvas = <HTMLCanvasElement> document.getElementById('canvas');
